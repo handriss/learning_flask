@@ -7,11 +7,12 @@ app = Flask(__name__)
 
 
 @app.route("/")
+@app.route("/list")
 def index():
-    return "it works"
+    return render_template('list.html')
 
-    for query in query_db('SELECT * FROM story'):
-        print(query)
+    # for query in query_db('SELECT * FROM story'):
+    #     print(query)
 
 @app.route("/story")
 def template_test():
