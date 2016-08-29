@@ -1,42 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sprint reporter</title>
-</head>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sprint Reporter</title>
+        <link rel="stylesheet" href="../static/css/normalize.css">
+        <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="../static/css/main.css">
+    </head>
+  
+  
+    <body>
+     <form action="/save" method="post">
 
-<body>
-<form action="/save" method="post">
+        <h1>User Story Manager<br>Add New Story</h1>
+         <!--{% block content %}{% endblock %}-->
 
-    <h2>User Story Manager - </h2>
-        <!--{% block content %}{% endblock %}-->
+          <label for="title">Story title:</label>
+          <input type='text' id='title' name='story_title' value={{query[1]}}>
 
-    <p>Story Title</p>
-    <p><input name="story_title" size="78" value={{query[1]}}></p>
-
-    <p>User Story</p>
-    <p><textarea name="story_content" rows="5" cols="60" value={{query[2]}}></textarea></p>
-
-    <p>Acceptance Criteria</p>
-    <p><textarea name="acceptance_criteria" rows="7" cols="60" value={{query[3]}}></textarea></p>
-
-    <p>Business Value</p>
-    <p><input type="number" name="business_value" step="100" min="100" max="1500" value={{query[4]}}></p>
-
-    <p>Estimation (h)</p>
-    <p><input type="number" name="estimation" step="0.5" min="0.5" max="40" value={{query[5]}}></p>
+          <label for="story_content">User Story:</label>
+          <textarea name="story_content" value={{query[2]}}></textarea>
 
 
-    <p>Status</p>
-    <p><select name="status">
-        <option>Planning</option>
-        <option>To Do</option>
-        <option>In Progress</option>
-        <option>Review</option>
-        <option>Done</option></select></p>
+          <label for="acceptance_criteria">Acceptance Criteria:</label>
+          <textarea name="acceptance_criteria" value={{query[3]}}></textarea>
+       
+        <fieldset>
+          <label for="business_value">Business Value</label>
+          <input  class="counter" type="number" name="business_value" step="100" min="100" max="1500" value={{query[4]}}>
+          
+          <label class="fields" for="estimation">Estimation (h)</label>
+          <input  class="counter" type="number" name="estimation" step="0.5" min="0.5" max="40" value={{query[5]}}>
+          
+          
+          <label class="fields" for="status">Status:</label>
+            <select id='status' name='status'>
+              <option value="Planning">Planning</option>
+              <option value="To Do">To Do</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Review">Review</option>
+              <option value="Done">Done</option>
+          </select>
+         </fieldset>
 
-    <p><button id="save" type="submit">Save</button></p>
-</form>
+       <button id="save" type="submit">Create user story</button>
 
-</body>
+      </form>
+    </body>
 </html>
+
+
+
+
+
