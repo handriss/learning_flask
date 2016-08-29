@@ -9,14 +9,24 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/list")
 def index():
-    return render_template('list.html')
+    testing_query = query_db("SELECT * FROM story ORDER BY id ASC")
+    return render_template('list.html', query=testing_query)
 
-    # for query in query_db('SELECT * FROM story'):
-    #     print(query)
+    for query in query_db('SELECT * FROM story'):
+        print(query)
+
+
+@app.route("/story/<int:story_id>")
+def valami(story_id):
+    query = query_db("SELECT * FROM story WHERE id == " + str(story_id) + " ORDER BY id ASC")
+    print(query)
+    print(query[0])
+    return render_template('form.html', query=query[0])
+
 
 @app.route("/story")
 def template_test():
-    return render_template('form.html')
+    return render_template('form.html', query="")
 
 
 @app.route('/save', methods=['POST'])
@@ -29,23 +39,13 @@ def signup():
     data["estimation"] = request.form['estimation']
     data["status"] = request.form['status']
 
-    print(data)
-
     query = """
         INSERT INTO story (title, content, criteria, business_value, estimation, status)
         VALUES ("{story_title}", "{story_content}", "{acceptance_criteria}", "{business_value}", "{estimation}",
-        , "{status}")""".format(**data)
+         "{status}")""".format(**data)
+    query_db(query)
     return redirect('/')
 
-# tweet = request.get_json()
-#     tweet["poster"] = prevent_injection(tweet["poster"][:20].strip())       # validation
-#     tweet["content"] = prevent_injection(tweet["content"][:144].strip())    # validation
-#     tweet["timestamp"] = int(time.time())
-#
-#     query = """
-#             INSERT INTO tweet (poster, content, timestamp)
-#             VALUES ("{poster}", "{content}", {timestamp});
-#             """.format(**tweet)
 
 DATABASE = 'database.db'
 
@@ -66,6 +66,7 @@ def query_db(query, args=(), one=False):
     db.commit()
     cur.close()
 
+    # return (rv if rv else None) if one else rv
     return (rv[0] if rv else None) if one else rv
 
 

@@ -12,19 +12,19 @@
         <!--{% block content %}{% endblock %}-->
 
     <p>Story Title</p>
-    <p><input name="story_title" size="78"></p>
+    <p><input name="story_title" size="78" value={{query[1]}}></p>
 
     <p>User Story</p>
-    <p><textarea name="story_content" rows="5" cols="60"></textarea></p>
+    <p><textarea name="story_content" rows="5" cols="60" value={{query[2]}}></textarea></p>
 
     <p>Acceptance Criteria</p>
-    <p><textarea name="acceptance_criteria" rows="7" cols="60"></textarea></p>
+    <p><textarea name="acceptance_criteria" rows="7" cols="60" value={{query[3]}}></textarea></p>
 
     <p>Business Value</p>
-    <p><input type="number" name="business_value" step="100" min="100" max="1500"></p>
+    <p><input type="number" name="business_value" step="100" min="100" max="1500" value={{query[4]}}></p>
 
     <p>Estimation (h)</p>
-    <p><input type="number" name="estimation" step="0.5" min="0.5" max="40"></p>
+    <p><input type="number" name="estimation" step="0.5" min="0.5" max="40" value={{query[5]}}></p>
 
 
     <p>Status</p>
