@@ -17,20 +17,24 @@ def index():
 
 
 @app.route("/story/<int:story_id>")
+@app.route('/modify_user_story/<int:story_id>')
 def valami(story_id):
+    print(story_id)
     query = query_db("SELECT * FROM story WHERE id == " + str(story_id) + " ORDER BY id ASC")
-    print(query)
-    print(query[0])
-    return render_template('form.html', query=query[0])
+
+    status = ['', '', '', '', '']
+    statuses = ['Planning', 'To Do', 'In Progress', 'Review', 'Done']
+    status[statuses.index(query[0][-1])] = " selected"
+    return render_template('form.html', query=query, status=status, button="Update user story", story_id=story_id)
 
 
 @app.route("/story")
 def template_test():
-    return render_template('form.html', query="")
+    return render_template('form.html', query=['', '', '', '', ''], status='', button="Create user story", story_id="")
 
 
 @app.route('/save', methods=['POST'])
-def signup():
+def saving():
     data = {}
     data["story_title"] = request.form['story_title']
     data["story_content"] = request.form['story_content']
@@ -46,6 +50,24 @@ def signup():
     query_db(query)
     return redirect('/')
 
+
+@app.route('/update/<story_id>', methods=['POST'])
+def updating(story_id):
+
+    data = {}
+    data["story_title"] = request.form['story_title']
+    data["story_content"] = request.form['story_content']
+    data["acceptance_criteria"] = request.form['acceptance_criteria']
+    data["business_value"] = request.form['business_value']
+    data["estimation"] = request.form['estimation']
+    data["status"] = request.form['status']
+
+    query_db("UPDATE story SET title=?, content=?, criteria=?, business_value=?, estimation=?, status=? WHERE id=?",
+            (request.form['story_title'], request.form['story_content'], request.form['acceptance_criteria'],
+    request.form['business_value'],
+    request.form['estimation'], request.form['status'], int(request.form['id'])))
+
+    return redirect('/')
 
 DATABASE = 'database.db'
 

@@ -8,49 +8,45 @@
         <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="../static/css/main.css">
     </head>
-  
-  
+
+
     <body>
-     <form action="/save" method="post">
+     <form action={{"/save" if button == "Create user story" else "/update/<story_id>"}} method="post">
 
         <h1>User Story Manager<br>Add New Story</h1>
          <!--{% block content %}{% endblock %}-->
 
           <label for="title">Story title:</label>
-          <input type='text' id='title' name='story_title' value={{query[1]}}>
+          <input type='text' id='title' name='story_title' value={{query[0][1]}}>
+          <input type="hidden" name="id" value="{{story_id}}"
 
           <label for="story_content">User Story:</label>
-          <textarea name="story_content" value={{query[2]}}></textarea>
+          <textarea name="story_content">{{query[0][2]}}</textarea>
 
 
           <label for="acceptance_criteria">Acceptance Criteria:</label>
-          <textarea name="acceptance_criteria" value={{query[3]}}></textarea>
-       
+          <textarea name="acceptance_criteria">{{query[0][3]}}</textarea>
+
         <fieldset>
           <label for="business_value">Business Value</label>
-          <input  class="counter" type="number" name="business_value" step="100" min="100" max="1500" value={{query[4]}}>
-          
+          <input  class="counter" type="number" name="business_value" step="100" min="100" max="1500" value={{query[0][4]}}>
+
           <label class="fields" for="estimation">Estimation (h)</label>
-          <input  class="counter" type="number" name="estimation" step="0.5" min="0.5" max="40" value={{query[5]}}>
-          
-          
+          <input  class="counter" type="number" name="estimation" step="0.5" min="0.5" max="40" value={{query[0][5]}}>
+
+
           <label class="fields" for="status">Status:</label>
             <select id='status' name='status'>
-              <option value="Planning">Planning</option>
-              <option value="To Do">To Do</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Review">Review</option>
-              <option value="Done">Done</option>
+              <option{{status[0]}} value="Planning">Planning</option>
+              <option{{status[1]}} value="To Do">To Do</option>
+              <option{{status[2]}} value="In Progress">In Progress</option>
+              <option{{status[3]}} value="Review">Review</option>
+              <option{{status[4]}} value="Done">Done</option>
           </select>
          </fieldset>
 
-       <button id="save" type="submit">Create user story</button>
+       <button id="save" type="submit">{{button}}</button>
 
       </form>
     </body>
 </html>
-
-
-
-
-

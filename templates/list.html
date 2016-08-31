@@ -8,7 +8,7 @@
     <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="../static/css/main.css">
   </head>
-  
+
   <body>
 
     <table>
@@ -24,11 +24,11 @@
         <th>Update</th>
         <th>Del</th>
       </thead>
-      
+
       <tbody>
         <!--PUT-->
         {% for n in query %}
-        
+
         <tr>
           <td>{{n[0]}}</td>
           <td>{{n[1]}}</td>
@@ -37,19 +37,20 @@
           <td>{{n[4]}}</td>
           <td>{{n[5]}}</td>
           <td>{{n[6]}}</td>
-          <td><input type="image" id="edit" src="../static/img/pen.png" width="20" align="center" alt="Edit"></td>
-           <!--DELETE-->
+          <td><form action="/modify_user_story/{{n[0]}}" method="get">
+              <input type="image" id="edit" src="../static/img/pen.png" width="20" align="center" alt="Edit"></td>
+          </form>
           <td><input type="image" id="edit" src="../static/img/bin.png" width="20" align="center" alt="Delete"></td>
         </tr>
-        
+
         {% endfor %}
-        
-       
+
+
       </tbody>
     </table>
-    
+
    <form action="/story" method="get"><button>Add a New User Story</button></form>
 
   </body>
-  
+
 </html>
