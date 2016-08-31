@@ -40,7 +40,16 @@
           <td><form action="/modify_user_story/{{n[0]}}" method="get">
               <input type="image" id="edit" src="../static/img/pen.png" width="20" align="center" alt="Edit"></td>
           </form>
-          <td><input type="image" id="edit" src="../static/img/bin.png" width="20" align="center" alt="Delete"></td>
+          <td><form action="/delete_user_story/{{n[0]}}" method="get">
+              <input type="image" id="edit" src="../static/img/bin.png" width="20" align="center" alt="Edit"></td>
+          </form>
+          <!-- <td><form action="/delete" method="get">
+              <input type="image" id="edit" src="../static/img/bin.png" width="20" align="center" alt="Edit"></td>
+              <input type="hidden" name="id" value="{{n[0]}}">
+          </form> -->
+          <!-- <td><form action="/delete" method="get">
+              <input type="image" id="edit" src="../static/img/bin.png" width="20" align="center" alt="Delete"></td>
+          </form> -->
         </tr>
 
         {% endfor %}

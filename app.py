@@ -12,20 +12,23 @@ def index():
     testing_query = query_db("SELECT * FROM story ORDER BY id ASC")
     return render_template('list.html', query=testing_query)
 
-    for query in query_db('SELECT * FROM story'):
-        print(query)
-
 
 @app.route("/story/<int:story_id>")
 @app.route('/modify_user_story/<int:story_id>')
 def valami(story_id):
-    print(story_id)
     query = query_db("SELECT * FROM story WHERE id == " + str(story_id) + " ORDER BY id ASC")
 
     status = ['', '', '', '', '']
     statuses = ['Planning', 'To Do', 'In Progress', 'Review', 'Done']
     status[statuses.index(query[0][-1])] = " selected"
     return render_template('form.html', query=query, status=status, button="Update user story", story_id=story_id)
+
+
+@app.route('/delete_user_story/<int:story_id>')
+def deleting(story_id):
+    query_db("DELETE FROM story WHERE id=?", (story_id,))
+    testing_query = query_db("SELECT * FROM story ORDER BY id ASC")
+    return render_template('list.html', query=testing_query)
 
 
 @app.route("/story")
@@ -68,6 +71,7 @@ def updating(story_id):
     request.form['estimation'], request.form['status'], int(request.form['id'])))
 
     return redirect('/')
+
 
 DATABASE = 'database.db'
 
