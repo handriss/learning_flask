@@ -14,7 +14,6 @@
      <form action={{"/save" if button == "Create user story" else "/update/<story_id>"}} method="post">
 
         <h1>User Story Manager<br>Add New Story</h1>
-         <!--{% block content %}{% endblock %}-->
 
           <label for="title">Story title:</label>
           <input type='text' id='title' name='story_title' value={{query[0][1]}}>
@@ -33,7 +32,6 @@
 
           <label class="fields" for="estimation">Estimation (h)</label>
           <input  class="counter" type="number" name="estimation" step="0.5" min="0.5" max="40" value={{query[0][5]}}>
-
 
           <label class="fields" for="status">Status:</label>
             <select id='status' name='status'>

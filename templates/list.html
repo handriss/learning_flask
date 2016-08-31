@@ -26,40 +26,21 @@
       </thead>
 
       <tbody>
-        <!--PUT-->
         {% for n in query %}
-
         <tr>
-          <td>{{n[0]}}</td>
-          <td>{{n[1]}}</td>
-          <td>{{n[2]}}</td>
-          <td>{{n[3]}}</td>
-          <td>{{n[4]}}</td>
-          <td>{{n[5]}}</td>
-          <td>{{n[6]}}</td>
-          <td><form action="/modify_user_story/{{n[0]}}" method="get">
+          <td>{{n[0]}}</td><td>{{n[1]}}</td><td>{{n[2]}}</td><td>{{n[3]}}</td>
+          <td>{{n[4]}}</td> <td>{{n[5]}}</td><td>{{n[6]}}</td>
+
+          <td><form action="/story/{{n[0]}}" method="get">
               <input type="image" id="edit" src="../static/img/pen.png" width="20" align="center" alt="Edit"></td>
           </form>
           <td><form action="/delete_user_story/{{n[0]}}" method="get">
               <input type="image" id="edit" src="../static/img/bin.png" width="20" align="center" alt="Edit"></td>
           </form>
-          <!-- <td><form action="/delete" method="get">
-              <input type="image" id="edit" src="../static/img/bin.png" width="20" align="center" alt="Edit"></td>
-              <input type="hidden" name="id" value="{{n[0]}}">
-          </form> -->
-          <!-- <td><form action="/delete" method="get">
-              <input type="image" id="edit" src="../static/img/bin.png" width="20" align="center" alt="Delete"></td>
-          </form> -->
         </tr>
-
         {% endfor %}
-
-
       </tbody>
     </table>
-
    <form action="/story" method="get"><button>Add a New User Story</button></form>
-
   </body>
-
 </html>

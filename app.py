@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, jsonify, g, current_app
+from flask import Flask, render_template, request, redirect, jsonify, g, current_app, flash
 import sqlite3
 import time
+import os
 
 
 app = Flask(__name__)
@@ -9,13 +10,12 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/list")
 def index():
-    testing_query = query_db("SELECT * FROM story ORDER BY id ASC")
-    return render_template('list.html', query=testing_query)
+    query = query_db("SELECT * FROM story ORDER BY id ASC")
+    return render_template('list.html', query=query)
 
 
 @app.route("/story/<int:story_id>")
-@app.route('/modify_user_story/<int:story_id>')
-def valami(story_id):
+def story_page(story_id):
     query = query_db("SELECT * FROM story WHERE id == " + str(story_id) + " ORDER BY id ASC")
 
     status = ['', '', '', '', '']
@@ -27,8 +27,8 @@ def valami(story_id):
 @app.route('/delete_user_story/<int:story_id>')
 def deleting(story_id):
     query_db("DELETE FROM story WHERE id=?", (story_id,))
-    testing_query = query_db("SELECT * FROM story ORDER BY id ASC")
-    return render_template('list.html', query=testing_query)
+    query = query_db("SELECT * FROM story ORDER BY id ASC")
+    return render_template('list.html', query=query)
 
 
 @app.route("/story")
@@ -38,45 +38,26 @@ def template_test():
 
 @app.route('/save', methods=['POST'])
 def saving():
-    data = {}
-    data["story_title"] = request.form['story_title']
-    data["story_content"] = request.form['story_content']
-    data["acceptance_criteria"] = request.form['acceptance_criteria']
-    data["business_value"] = request.form['business_value']
-    data["estimation"] = request.form['estimation']
-    data["status"] = request.form['status']
-
     query = """
         INSERT INTO story (title, content, criteria, business_value, estimation, status)
         VALUES ("{story_title}", "{story_content}", "{acceptance_criteria}", "{business_value}", "{estimation}",
-         "{status}")""".format(**data)
+         "{status}")""".format(**request.form)
     query_db(query)
     return redirect('/')
 
 
 @app.route('/update/<story_id>', methods=['POST'])
 def updating(story_id):
-
-    data = {}
-    data["story_title"] = request.form['story_title']
-    data["story_content"] = request.form['story_content']
-    data["acceptance_criteria"] = request.form['acceptance_criteria']
-    data["business_value"] = request.form['business_value']
-    data["estimation"] = request.form['estimation']
-    data["status"] = request.form['status']
-
-    query_db("UPDATE story SET title=?, content=?, criteria=?, business_value=?, estimation=?, status=? WHERE id=?",
-            (request.form['story_title'], request.form['story_content'], request.form['acceptance_criteria'],
-    request.form['business_value'],
-    request.form['estimation'], request.form['status'], int(request.form['id'])))
-
+    query = "UPDATE story SET title=?, content=?, criteria=?, business_value=?, estimation=?, status=? WHERE id=?", (
+        request.form['story_title'], request.form['story_content'],
+        request.form['acceptance_criteria'], request.form['business_value'],
+        request.form['estimation'], request.form['status'], int(request.form['id']))
     return redirect('/')
 
 
 DATABASE = 'database.db'
 
 
-# DB connector
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -84,7 +65,6 @@ def get_db():
     return db
 
 
-# Query runner
 def query_db(query, args=(), one=False):
     db = get_db()
     cur = db.execute(query, args)
@@ -92,7 +72,6 @@ def query_db(query, args=(), one=False):
     db.commit()
     cur.close()
 
-    # return (rv if rv else None) if one else rv
     return (rv[0] if rv else None) if one else rv
 
 
